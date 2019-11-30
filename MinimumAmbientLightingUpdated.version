@@ -1,18 +1,18 @@
 {
   "NAME": "MinAmbience",
-  "URL": "http://ksp.spacetux.net/avc/MinAmbience",
-  "DOWNLOAD": "https://github.com/linuxgurugamer/MinAmbience/releases",
-  "CHANGELOG": "https://raw.githubusercontent.com/linuxgurugamer/MinAmbience/master/Changelog.txt",
+  "URL": "http://ksp.spacetux.net/avc/MinimumAmbientLightingUpdated",
+  "DOWNLOAD": "https://github.com/linuxgurugamer/MinimumAmbientLightingUpdated/releases",
+  "CHANGELOG": "https://raw.githubusercontent.com/linuxgurugamer/MinimumAmbientLightingUpdated/master/Changelog.txt",
   "GITHUB": {
     "USERNAME": "linuxgurugamer",
-    "REPOSITORY": "MinAmbience",
+    "REPOSITORY": "MinimumAmbientLightingUpdated",
     "ALLOW_PRE_RELEASE": false
   },
   "VERSION": {
     "MAJOR": 1,
     "MINOR": 2,
     "PATCH": 5,
-    "BUILD": 0
+    "BUILD": 1
   },
   "KSP_VERSION_MIN": {
     "MAJOR": 1,
