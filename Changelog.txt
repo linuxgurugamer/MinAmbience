@@ -1,5 +1,8 @@
 ChangeLog
 
+1.2.5.2
+	Added timer to automatically close the window.  Time starts from last change in the window
+
 1.2.5.1
 	Updated .version file
 

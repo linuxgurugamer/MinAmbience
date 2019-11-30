@@ -20,6 +20,10 @@ namespace MinimumAmbientLightingUpdated
 
         private static ToolbarControl toolbarControl;
 
+#if false
+        private CanvasGroup trans;
+        private float effectiveTransparency;
+#endif
         private void Start()
         {
             Object.DontDestroyOnLoad(this);
@@ -27,6 +31,11 @@ namespace MinimumAmbientLightingUpdated
             centerAmbient = RenderSettings.ambientLight;
             ResizeWindow();
             InitializeToolbarButton();
+#if false
+            effectiveTransparency = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().baseTransparency;
+            trans = GetComponent<CanvasGroup>();
+            trans.alpha = effectiveTransparency;
+#endif
         }
 
         const string _appImageFile = "MinimumAmbientLightingUpdated/PluginData/ToolbarIcon";
@@ -50,11 +59,12 @@ namespace MinimumAmbientLightingUpdated
         }
 
 
-
+        double lastTimeAccessed;
 
         private void OnAppToggleOn()
         {
             showSlider = true;
+            lastTimeAccessed = Time.realtimeSinceStartup;
         }
 
         private void OnAppToggleOff()
@@ -68,7 +78,7 @@ namespace MinimumAmbientLightingUpdated
             {
                 if (!HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin)
                     GUI.skin = HighLogic.Skin;
-               windowPos = ClickThruBlocker.GUILayoutWindow(379, windowPos, OnWindow, "Minimum Ambient Lighting");
+                windowPos = ClickThruBlocker.GUILayoutWindow(379, windowPos, OnWindow, "Minimum Ambient Lighting");
             }
         }
 
@@ -120,37 +130,47 @@ namespace MinimumAmbientLightingUpdated
                         HighLogic.CurrentGame.Parameters.CustomParams<MAL>().trackingStationMin = value;
                         break;
                 }
+
             }
         }
 
         private void OnWindow(int windowID)
         {
-         
+
             GUILayout.BeginHorizontal();
 
-            SlideValue = GUILayout.HorizontalSlider(SlideValue, 0f, 100f);
-            minAmbient = SlideValue / 100f;
+            float newSlideValue = GUILayout.HorizontalSlider(SlideValue, 0f, 100f);
+            if (newSlideValue != SlideValue)
+            {
+                lastTimeAccessed = Time.realtimeSinceStartup;
+                minAmbient = SlideValue / 100f;
+            }
             if (GUILayout.Button("Reset to Default", GUILayout.ExpandWidth(false), GUILayout.Height(20f)))
             {
                 SlideValue = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().defaultValue;
+                lastTimeAccessed = Time.realtimeSinceStartup;
             }
 
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin = GUILayout.Toggle(HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin, "Use alternate skin");
+            var b = GUILayout.Toggle(HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin, "Use alternate skin");
+            if (b != HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin)
+                lastTimeAccessed = Time.realtimeSinceStartup;
+            HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin = b;
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Save as Default", GUILayout.Height(20f)))
             {
                 HighLogic.CurrentGame.Parameters.CustomParams<MAL>().defaultValue = SlideValue;
+                lastTimeAccessed = Time.realtimeSinceStartup;
             }
- 
+
             GUILayout.EndHorizontal();
             GUI.DragWindow();
         }
 
         private void ResizeWindow()
         {
-            windowPos = new Rect((float)Screen.width - 400f - 41f, 0f, 400f, 56 + 56/2);
+            windowPos = new Rect((float)Screen.width - 400f - 41f, 0f, 400f, 56 + 56 / 2);
         }
 
         private void LateUpdate()
@@ -174,6 +194,14 @@ namespace MinimumAmbientLightingUpdated
                     ambientLight.g += num;
                     ambientLight.b += num;
                     RenderSettings.ambientLight = ambientLight;
+                }
+            }
+            if (showSlider && HighLogic.CurrentGame.Parameters.CustomParams<MAL>().autoClose)
+            {
+                if (Time.realtimeSinceStartup - lastTimeAccessed > HighLogic.CurrentGame.Parameters.CustomParams<MAL>().autoCloseTimeout)
+                {
+                    showSlider = false;
+                    toolbarControl.buttonActive = false;
                 }
             }
         }

@@ -12,7 +12,7 @@ namespace MinimumAmbientLightingUpdated
         public override string Title { get { return ""; } }
         public override GameParameters.GameMode GameMode { get { return GameParameters.GameMode.ANY; } }
         public override string Section { get { return "MinAmbience"; } }
-        public override string DisplaySection { get { return "Minimum Ambient Lighting Updated"; } }
+        public override string DisplaySection { get { return "Minimum Ambient Lighting Upd"; } }
         public override int SectionOrder { get { return 1; } }
         public override bool HasPresets { get { return false; } }
 
@@ -42,9 +42,18 @@ namespace MinimumAmbientLightingUpdated
 
 
         [GameParameters.CustomParameterUI("Use alternate skin")]
-        public bool useAltSkin  = false;
+        public bool useAltSkin = false;
 
+        [GameParameters.CustomParameterUI("Autoclose after time")]
+        public bool autoClose = true;
 
+        [GameParameters.CustomIntParameterUI("Seconds before autoclose", minValue = 2, maxValue = 30)]
+        public int autoCloseTimeout = 5;
+
+#if false
+        [GameParameters.CustomIntParameterUI("Base Transparency", minValue = 0, maxValue = 255)]
+        public int baseTransparency = 255;
+#endif
 
         public override void SetDifficultyPreset(GameParameters.Preset preset)
         {
