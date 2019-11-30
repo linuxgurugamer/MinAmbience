@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimumAmbientLightingUpdated", "MinAmbience\MinimumAmbientLightingUpdated.csproj", "{B99555D4-EE37-44B3-98A5-89ECDFF21089}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimumAmbientLightingUpdated", "MinimumAmbientLightingUpdated\MinimumAmbientLightingUpdated.csproj", "{B99555D4-EE37-44B3-98A5-89ECDFF21089}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F4E67038-9725-4E85-AAE0-6A3C35124D27}"
 	ProjectSection(SolutionItems) = preProject
