@@ -1,0 +1,55 @@
+ChangeLog
+
+1.2.5
+	Adoption by Linuxgurugamer
+	Replaced single settig with settings for:
+		Map
+		Flight
+		Editor
+		Space Center
+		Tracking Station
+	Added Settings page
+	Added support for ToolbarController
+	Added support for ClickThroughBlocker
+	Removed options to show in flight scene & enable the toolbar
+	Added draggable window
+	Added alternate skin
+	Created Changelog from thread info
+	Added license per the original thread
+	Modified toolbar button to have a light gradiant
+
+
+v1.2.4
+	[Updated] - Rebuild with 1.6 libraries
+
+v1.2.3
+	[Fixed] - UI working with new KSP Release
+	[Updated] - Rebuild with 1.2 libraries
+
+v1.2.1
+	[Fixed] - Possible Memory Leak
+
+v1.2.0
+	[Fixed] - Got legacy UI working
+	[Updated] - Rebuild with 1.1 libraries
+
+v1.1.2
+	[hotfix] - Removed UI temporarily so it was compatible with 1.1
+
+v1.1.1
+	[updated] - Rebuild with 1.0.4 libraries
+
+v1.1
+	[Added] - Stock Toolbar integration and in-game UI
+	[Changed] - Folder Structure *remove existing install before upgrading*
+
+v1.0.2
+	[updated] - Rebuild with 1.0.2 libraries
+	[Added] - Hosted on Kerbal Stuff (available on CKAN)
+
+v1.0.1
+	[updated] - Rebuild with 0.90 libraries
+	[Changed] - Folder structure *remove old install under GenesisRage folder*
+
+v1.0
+	initial release
