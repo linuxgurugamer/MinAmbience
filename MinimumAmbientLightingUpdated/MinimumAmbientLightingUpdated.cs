@@ -143,6 +143,7 @@ namespace MinimumAmbientLightingUpdated
             if (newSlideValue != SlideValue)
             {
                 lastTimeAccessed = Time.realtimeSinceStartup;
+                SlideValue = newSlideValue;
                 minAmbient = SlideValue / 100f;
             }
             if (GUILayout.Button("Reset to Default", GUILayout.ExpandWidth(false), GUILayout.Height(20f)))
