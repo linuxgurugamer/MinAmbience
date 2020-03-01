@@ -1,5 +1,11 @@
 ChangeLog
 
+1.2.6
+	Added a day, night & streaming modes to store sets of settings
+	Updated settings page to list each group in seperate column
+	Fixed button being hidden when timer wen off
+	Fixed harmless nullref when returning to main menu from a game
+
 1.2.5.3
 	Restored accidently deleted line which sets the slide value, made it impossible to move the slider
 
@@ -11,7 +17,7 @@ ChangeLog
 
 1.2.5
 	Adoption by Linuxgurugamer
-	Replaced single settig with settings for:
+	Replaced single setting with settings for:
 		Map
 		Flight
 		Editor

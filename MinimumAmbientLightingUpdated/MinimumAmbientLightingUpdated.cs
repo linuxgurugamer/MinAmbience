@@ -9,6 +9,11 @@ namespace MinimumAmbientLightingUpdated
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     public class MinimumAmbientLightingUpdated : MonoBehaviour
     {
+        private static bool streaming = false;
+        private static bool day = true;
+        private static bool night = false;
+        enum LightMode { streaming = 0, day = 1, night = 2};
+        private static LightMode mode = 0;
 
         private static Color centerAmbient;
 
@@ -76,7 +81,7 @@ namespace MinimumAmbientLightingUpdated
         {
             if (showSlider)
             {
-                if (!HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin)
+                if (!HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().useAltSkin)
                     GUI.skin = HighLogic.Skin;
                 windowPos = ClickThruBlocker.GUILayoutWindow(379, windowPos, OnWindow, "Minimum Ambient Lighting");
             }
@@ -89,48 +94,145 @@ namespace MinimumAmbientLightingUpdated
             {
                 if (HighLogic.CurrentGame == null)
                     return 0;
-                float sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().defaultValue;
+                float sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().defaultValue;
+
                 switch (HighLogic.LoadedScene)
                 {
                     case GameScenes.EDITOR:
-                        sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().editorMin;
+                        switch (mode)
+                        {
+                            case LightMode.streaming:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().editorMinStream; break;
+                            case LightMode.day:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().editorMinDay; break;
+                            case LightMode.night:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().editorMinNight; break;
+                        }
                         break;
+
                     case GameScenes.FLIGHT:
                         if (MapView.MapIsEnabled)
-                            sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().mapMin;
+                        {
+                            switch (mode)
+                            {
+                                case LightMode.streaming:
+                                    sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().mapMinStream; break;
+                                case LightMode.day:
+                                    sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().mapMinDay; break;
+                                case LightMode.night:
+                                    sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().mapMinNight; break;
+                            }
+
+                        }
                         else
-                            sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().flightMin;
+                        {
+                            switch (mode)
+                            {
+                                case LightMode.streaming:
+                                    sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().flightMinStream; break;
+                                case LightMode.day:
+                                    sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().flightMinDay; break;
+                                case LightMode.night:
+                                    sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().flightMinNight; break;
+                            }
+                        }
+                        break;
+
                         break;
                     case GameScenes.SPACECENTER:
-                        sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().spaceCenterMin;
+                        switch (mode)
+                        {
+                            case LightMode.streaming:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().spaceCenterMinStream; break;
+                            case LightMode.day:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().spaceCenterMinDay; break;
+                            case LightMode.night:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().spaceCenterMinNight; break;
+                        }
+
                         break;
                     case GameScenes.TRACKSTATION:
-                        sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().trackingStationMin;
+                        switch (mode)
+                        {
+                            case LightMode.streaming:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().trackingStationMinStream; break;
+                            case LightMode.day:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().trackingStationMinDay; break;
+                            case LightMode.night:
+                                sv = HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().trackingStationMinNight; break;
+                        }
+
                         break;
                 }
                 return sv;
             }
+
+
             set
             {
                 switch (HighLogic.LoadedScene)
                 {
                     case GameScenes.EDITOR:
-                        HighLogic.CurrentGame.Parameters.CustomParams<MAL>().editorMin = value;
+                        switch (mode)
+                        {
+                            case LightMode.streaming:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().editorMinStream = value; ; break;
+                            case LightMode.day:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().editorMinDay = value; break;
+                            case LightMode.night:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().editorMinNight = value; break;
+                        }
                         break;
                     case GameScenes.FLIGHT:
                         if (MapView.MapIsEnabled)
-                            HighLogic.CurrentGame.Parameters.CustomParams<MAL>().mapMin = value;
+                        {
+                            switch (mode)
+                            {
+                                case LightMode.streaming:
+                                    HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().mapMinStream = value; ; break;
+                                case LightMode.day:
+                                    HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().mapMinDay = value; break;
+                                case LightMode.night:
+                                    HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().mapMinNight = value; break;
+                            }
+                        }
                         else
-                            HighLogic.CurrentGame.Parameters.CustomParams<MAL>().flightMin = value;
+                        {
+                            switch (mode)
+                            {
+                                case LightMode.streaming:
+                                    HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().flightMinStream = value; ; break;
+                                case LightMode.day:
+                                    HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().flightMinDay = value; break;
+                                case LightMode.night:
+                                    HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().flightMinNight = value; break;
+                            }
+                        }
                         break;
                     case GameScenes.SPACECENTER:
-                        HighLogic.CurrentGame.Parameters.CustomParams<MAL>().spaceCenterMin = value;
+                        switch (mode)
+                        {
+                            case LightMode.streaming:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().spaceCenterMinStream = value; ; break;
+                            case LightMode.day:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().spaceCenterMinDay = value; break;
+                            case LightMode.night:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().spaceCenterMinNight = value; break;
+                        }
                         break;
                     case GameScenes.TRACKSTATION:
-                        HighLogic.CurrentGame.Parameters.CustomParams<MAL>().trackingStationMin = value;
+                        switch (mode)
+                        {
+                            case LightMode.streaming:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL3>().trackingStationMinStream = value; ; break;
+                            case LightMode.day:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().trackingStationMinDay = value; break;
+                            case LightMode.night:
+                                HighLogic.CurrentGame.Parameters.CustomParams<MAL2>().trackingStationMinNight = value; break;
+                        }
                         break;
+                
                 }
-
             }
         }
 
@@ -148,25 +250,40 @@ namespace MinimumAmbientLightingUpdated
             }
             if (GUILayout.Button("Reset to Default", GUILayout.ExpandWidth(false), GUILayout.Height(20f)))
             {
-                SlideValue = HighLogic.CurrentGame.Parameters.CustomParams<MAL>().defaultValue;
+                SlideValue = HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().defaultValue;
                 lastTimeAccessed = Time.realtimeSinceStartup;
             }
 
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            var b = GUILayout.Toggle(HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin, "Use alternate skin");
-            if (b != HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin)
+            var b = GUILayout.Toggle(HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().useAltSkin, "Use alternate skin");
+            if (b != HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().useAltSkin)
                 lastTimeAccessed = Time.realtimeSinceStartup;
-            HighLogic.CurrentGame.Parameters.CustomParams<MAL>().useAltSkin = b;
+            HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().useAltSkin = b;
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Save as Default", GUILayout.Height(20f)))
             {
-                HighLogic.CurrentGame.Parameters.CustomParams<MAL>().defaultValue = SlideValue;
+                HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().defaultValue = SlideValue;
                 lastTimeAccessed = Time.realtimeSinceStartup;
             }
-
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (night || streaming)
+                day = false;
+            day = GUILayout.Toggle(day, "Day");
+            GUILayout.FlexibleSpace();
+            if (day || streaming)
+                night = false;
+            night = GUILayout.Toggle(night, "Night");
+            GUILayout.FlexibleSpace();
+            if (day || night) streaming = false;
+            streaming = GUILayout.Toggle(streaming, "Streaming mode");
+            GUILayout.FlexibleSpace();
+            if (!HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().useAltSkin)
+                GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             GUI.DragWindow();
+            mode = (LightMode)(streaming ? 0 : 0) + (day ? 1 : 0) + (night ? 2 : 0); 
         }
 
         private void ResizeWindow()
@@ -176,6 +293,8 @@ namespace MinimumAmbientLightingUpdated
 
         private void LateUpdate()
         {
+            if (HighLogic.CurrentGame == null)
+                return;
             if (HighLogic.LoadedSceneIsFlight || HighLogic.LoadedScene == GameScenes.SPACECENTER || HighLogic.LoadedSceneIsEditor || HighLogic.LoadedSceneHasPlanetarium)
             {
                 Color ambientLight = RenderSettings.ambientLight;
@@ -197,12 +316,12 @@ namespace MinimumAmbientLightingUpdated
                     RenderSettings.ambientLight = ambientLight;
                 }
             }
-            if (showSlider && HighLogic.CurrentGame.Parameters.CustomParams<MAL>().autoClose)
+            if (showSlider && HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().autoClose)
             {
-                if (Time.realtimeSinceStartup - lastTimeAccessed > HighLogic.CurrentGame.Parameters.CustomParams<MAL>().autoCloseTimeout)
+                if (Time.realtimeSinceStartup - lastTimeAccessed > HighLogic.CurrentGame.Parameters.CustomParams<MAL1>().autoCloseTimeout)
                 {
                     showSlider = false;
-                    toolbarControl.buttonActive = false;
+                    //toolbarControl.buttonActive = false;
                 }
             }
         }
